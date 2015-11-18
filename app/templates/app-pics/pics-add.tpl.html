@@ -1,0 +1,15 @@
+<h3>Add a Pic</h3>
+
+<form ng-submit="vm.addPic(pic)">
+
+  <label>Picture Url:</label>
+  <input placeholder="http://example.com/image.png" ng-model="pic.url">
+
+  <label>Picture Title:</label>
+  <input placeholder="My Picture!" ng-model="pic.title">
+
+  <label>About This Picture:</label>
+  <textarea placeholder="This is some stuff about my picture..." ng-model="pic.about"></textarea>
+
+  <button>Add Picture</button>
+</form>
