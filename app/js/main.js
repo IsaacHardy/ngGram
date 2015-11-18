@@ -65,20 +65,33 @@ var _constantsParseConstant2 = _interopRequireDefault(_constantsParseConstant);
 
 _angular2['default'].module('app.core', ['ui.router']).config(_config2['default']).constant('PARSE', _constantsParseConstant2['default']);
 
-},{"./config":1,"./constants/parse.constant":2,"angular":12,"angular-ui-router":10}],4:[function(require,module,exports){
+},{"./config":1,"./constants/parse.constant":2,"angular":13,"angular-ui-router":11}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var HomeController = function HomeController(PARSE) {
+var HomeController = function HomeController(PARSE, PicService) {
 
   var vm = this;
 
   vm.title = 'Home Page';
+
+  vm.getPics = getPics;
+
+  vm.pics = [];
+
+  getPics();
+
+  function getPics(picObj) {
+    PicService.getAllPics(picObj).then(function (res) {
+      console.log(res);
+      vm.pics = res.data.results;
+    });
+  }
 };
 
-HomeController.$inject = ['PARSE'];
+HomeController.$inject = ['PARSE', "PicService"];
 
 exports['default'] = HomeController;
 module.exports = exports['default'];
@@ -98,7 +111,7 @@ var _controllersHomeController2 = _interopRequireDefault(_controllersHomeControl
 
 _angular2['default'].module('app.layout', []).controller('HomeController', _controllersHomeController2['default']);
 
-},{"./controllers/home.controller":4,"angular":12}],6:[function(require,module,exports){
+},{"./controllers/home.controller":4,"angular":13}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -125,6 +138,34 @@ module.exports = exports['default'];
 },{}],7:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var isaacImage = function isaacImage($state) {
+
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: {
+      pic: '='
+    },
+    template: '\n      <div class="imgContainer">\n        <h5>{{ pic.title }}</h5>\n        <img src="{{ pic.url }}">\n      </div>\n    ',
+    link: function link(s, e, a) {
+      e.on('click', function () {
+        console.log('Yay!');
+      });
+    }
+  };
+};
+
+isaacImage.$inject = ['$state'];
+
+exports['default'] = isaacImage;
+module.exports = exports['default'];
+
+},{}],8:[function(require,module,exports){
+'use strict';
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _angular = require('angular');
@@ -141,9 +182,13 @@ var _servicesPicService = require('./services/pic.service');
 
 var _servicesPicService2 = _interopRequireDefault(_servicesPicService);
 
-_angular2['default'].module('app.pics', ['app.core']).controller('PicController', _controllersPicController2['default']).service('PicService', _servicesPicService2['default']);
+var _directivesPicDirective = require('./directives/pic.directive');
 
-},{"../app-core/index":3,"./controllers/pic.controller":6,"./services/pic.service":8,"angular":12}],8:[function(require,module,exports){
+var _directivesPicDirective2 = _interopRequireDefault(_directivesPicDirective);
+
+_angular2['default'].module('app.pics', ['app.core']).controller('PicController', _controllersPicController2['default']).service('PicService', _servicesPicService2['default']).directive('isaacImage', _directivesPicDirective2['default']);
+
+},{"../app-core/index":3,"./controllers/pic.controller":6,"./directives/pic.directive":7,"./services/pic.service":9,"angular":13}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -177,7 +222,7 @@ PicService.$inject = ['$http', "PARSE"];
 exports['default'] = PicService;
 module.exports = exports['default'];
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 // Import our core files
 'use strict';
 
@@ -197,7 +242,7 @@ require('./app-pics/index');
 
 _angular2['default'].module('app', ['app.core', 'app.layout', 'app.pics']);
 
-},{"./app-core/index":3,"./app-layout/index":5,"./app-pics/index":7,"angular":12}],10:[function(require,module,exports){
+},{"./app-core/index":3,"./app-layout/index":5,"./app-pics/index":8,"angular":13}],11:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.15
@@ -4568,7 +4613,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 /**
  * @license AngularJS v1.4.7
  * (c) 2010-2015 Google, Inc. http://angularjs.org
@@ -33473,11 +33518,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":11}]},{},[9])
+},{"./angular":12}]},{},[10])
 
 
 //# sourceMappingURL=main.js.map

@@ -6387,11 +6387,37 @@ th.hide-for-touch {
   th.show-for-print {
     display: table-cell !important; } }
 
+html {
+  box-sizing: border-box; }
+
+*, *::after, *::before {
+  box-sizing: inherit; }
+
 body {
   background: #e2ebf3; }
 
 .container {
   width: 600px;
   margin: 15px auto; }
+
+.imgContainer {
+  float: left;
+  display: block;
+  margin-right: 3.57866%;
+  width: 22.316%;
+  min-width: 100px;
+  min-height: 125px;
+  max-width: 100px;
+  max-height: 125px;
+  border: 1px solid;
+  background-color: tan; }
+  .imgContainer:last-child {
+    margin-right: 0; }
+  .imgContainer img {
+    width: 100%;
+    height: 100px; }
+  .imgContainer h5 {
+    font-size: 10px;
+    text-align: center; }
 
 /*# sourceMappingURL=main.css.map */
