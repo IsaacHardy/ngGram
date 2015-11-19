@@ -23,9 +23,9 @@ let PicService = function($http, PARSE) {
     return $http.post(url, p, PARSE.CONFIG);
   }
 
-  function addLike (picObj) {
-    console.log(picObj);
-    return $http.put(url + '/' + picObj.objectId, PARSE.CONFIG);
+  function addLike (pic) {
+    console.log(pic);
+    return $http.put(url + '/' + pic.objectId, pic, PARSE.CONFIG);
   }
 
 

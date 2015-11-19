@@ -27,6 +27,7 @@ body {
   background-color: tan;
   border-radius: 5px;
   position: relative;
+  margin-top: 20px;
   img {
     height: 98px;
   }
@@ -42,6 +43,13 @@ body {
   margin-top: 1px;
   margin-top: -98px;
   margin-left: 6px;
+  span {
+    position: absolute;
+    color: white;
+    margin-top: 45px;
+    margin-left: -62px;
+
+  }
 }
 
 .hidden {
@@ -50,5 +58,9 @@ body {
   margin-top: -98px;
   margin-left: 6px;
   visibility: hidden;
+  span {
+    position: absolute;
+    
+  }
 
 }

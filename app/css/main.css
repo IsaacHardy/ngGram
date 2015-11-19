@@ -6412,7 +6412,8 @@ body {
   border: 1px solid;
   background-color: tan;
   border-radius: 5px;
-  position: relative; }
+  position: relative;
+  margin-top: 20px; }
   .imgContainer:last-child {
     margin-right: 0; }
   .imgContainer img {
@@ -6427,6 +6428,11 @@ body {
   margin-top: 1px;
   margin-top: -98px;
   margin-left: 6px; }
+  .show span {
+    position: absolute;
+    color: white;
+    margin-top: 45px;
+    margin-left: -62px; }
 
 .hidden {
   position: absolute;
@@ -6434,5 +6440,7 @@ body {
   margin-top: -98px;
   margin-left: 6px;
   visibility: hidden; }
+  .hidden span {
+    position: absolute; }
 
 /*# sourceMappingURL=main.css.map */

@@ -1,4 +1,4 @@
-let isaacImage = function($state, $timeouts) {
+let isaacImage = function($state, $timeouts, PicService) {
   
   return {
     restrict: 'E',
@@ -9,8 +9,8 @@ let isaacImage = function($state, $timeouts) {
     template: `
       <div class="imgContainer">
         <h5>{{ pic.title }}</h5>
-        <img src="{{ pic.url }}">
-        <div class="hidden"><img src="{{ pic.heart }}"><span>{{ pic.like }}</span></div>
+        <img ng-src="{{ pic.url }}">
+        <div class="hidden"><img ng-src="{{ pic.heart }}"><span>{{ pic.like }}</span></div>
       </div>
     `,
     link: function (s, e, a) {
@@ -21,7 +21,9 @@ let isaacImage = function($state, $timeouts) {
         e[0].childNodes[5].className = 'hidden';         
       });
       e.on('click', function () {  
-        s.pic.like = s.pic.like + 1;
+        PicService.addLike(s.pic).then( () => {
+          s.pic.like = s.pic.like + 1;
+        });
       });
 
     }
@@ -29,6 +31,6 @@ let isaacImage = function($state, $timeouts) {
 
 };
 
-isaacImage.$inject = ['$state', '$timeout'];
+isaacImage.$inject = ['$state', '$timeout', 'PicService'];
 
 export default isaacImage;

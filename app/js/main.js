@@ -148,7 +148,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var isaacImage = function isaacImage($state, $timeouts) {
+var isaacImage = function isaacImage($state, $timeouts, PicService) {
 
   return {
     restrict: 'E',
@@ -156,7 +156,7 @@ var isaacImage = function isaacImage($state, $timeouts) {
     scope: {
       pic: '='
     },
-    template: '\n      <div class="imgContainer">\n        <h5>{{ pic.title }}</h5>\n        <img src="{{ pic.url }}">\n        <div class="hidden"><img src="{{ pic.heart }}"><span>{{ pic.like }}</span></div>\n      </div>\n    ',
+    template: '\n      <div class="imgContainer">\n        <h5>{{ pic.title }}</h5>\n        <img ng-src="{{ pic.url }}">\n        <div class="hidden"><img ng-src="{{ pic.heart }}"><span>{{ pic.like }}</span></div>\n      </div>\n    ',
     link: function link(s, e, a) {
       e.on('mouseover', function () {
         e[0].childNodes[5].className = 'show';
@@ -165,13 +165,15 @@ var isaacImage = function isaacImage($state, $timeouts) {
         e[0].childNodes[5].className = 'hidden';
       });
       e.on('click', function () {
-        s.pic.like = s.pic.like + 1;
+        PicService.addLike(s.pic).then(function () {
+          s.pic.like = s.pic.like + 1;
+        });
       });
     }
   };
 };
 
-isaacImage.$inject = ['$state', '$timeout'];
+isaacImage.$inject = ['$state', '$timeout', 'PicService'];
 
 exports['default'] = isaacImage;
 module.exports = exports['default'];
@@ -232,9 +234,9 @@ var PicService = function PicService($http, PARSE) {
     return $http.post(url, p, PARSE.CONFIG);
   }
 
-  function addLike(picObj) {
-    console.log(picObj);
-    return $http.put(url + '/' + picObj.objectId, PARSE.CONFIG);
+  function addLike(pic) {
+    console.log(pic);
+    return $http.put(url + '/' + pic.objectId, pic, PARSE.CONFIG);
   }
 };
 
