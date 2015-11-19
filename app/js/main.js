@@ -75,9 +75,10 @@ var HomeController = function HomeController(PARSE, PicService) {
 
   var vm = this;
 
-  vm.title = 'Home Page';
+  vm.title = 'ngGram';
 
   vm.getPics = getPics;
+  vm.addLike = addLike;
 
   vm.pics = [];
 
@@ -85,9 +86,15 @@ var HomeController = function HomeController(PARSE, PicService) {
 
   function getPics(picObj) {
     PicService.getAllPics(picObj).then(function (res) {
-      console.log(res);
       vm.pics = res.data.results;
     });
+  }
+
+  function addLike(picObj) {
+    // this.like = picObj.like;
+    // PicService.addLike(picObj).then( (res) => {
+    //   vm.pics = res.data.results;
+    // });
   }
 };
 
@@ -141,7 +148,7 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-var isaacImage = function isaacImage($state) {
+var isaacImage = function isaacImage($state, $timeouts) {
 
   return {
     restrict: 'E',
@@ -149,16 +156,22 @@ var isaacImage = function isaacImage($state) {
     scope: {
       pic: '='
     },
-    template: '\n      <div class="imgContainer">\n        <h5>{{ pic.title }}</h5>\n        <img src="{{ pic.url }}">\n      </div>\n    ',
+    template: '\n      <div class="imgContainer">\n        <h5>{{ pic.title }}</h5>\n        <img src="{{ pic.url }}">\n        <div class="hidden"><img src="{{ pic.heart }}"><span>{{ pic.like }}</span></div>\n      </div>\n    ',
     link: function link(s, e, a) {
+      e.on('mouseover', function () {
+        e[0].childNodes[5].className = 'show';
+      });
+      e.on('mouseleave', function () {
+        e[0].childNodes[5].className = 'hidden';
+      });
       e.on('click', function () {
-        console.log('Yay!');
+        s.pic.like = s.pic.like + 1;
       });
     }
   };
 };
 
-isaacImage.$inject = ['$state'];
+isaacImage.$inject = ['$state', '$timeout'];
 
 exports['default'] = isaacImage;
 module.exports = exports['default'];
@@ -200,11 +213,14 @@ var PicService = function PicService($http, PARSE) {
 
   this.getAllPics = getAllPics;
   this.addPic = addPic;
+  this.addLike = addLike;
 
   function Pic(picObj) {
     this.url = picObj.url;
     this.title = picObj.title;
     this.about = picObj.about;
+    this.heart = 'http://vignette3.wikia.nocookie.net/bindingofisaac/images/e/e3/Evil_heart.png/revision/latest?cb=20120701175625';
+    this.like = 0;
   }
 
   function getAllPics() {
@@ -214,6 +230,11 @@ var PicService = function PicService($http, PARSE) {
   function addPic(picObj) {
     var p = new Pic(picObj);
     return $http.post(url, p, PARSE.CONFIG);
+  }
+
+  function addLike(picObj) {
+    console.log(picObj);
+    return $http.put(url + '/' + picObj.objectId, PARSE.CONFIG);
   }
 };
 
